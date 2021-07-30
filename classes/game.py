@@ -77,6 +77,34 @@ class Person:
             print("        "+ str(i) + ".", item["item"].name, ":", item["item"].description, "(x" +  str(item["quantity"]) +")")
             i += 1
 
+    def get_enemy_stats(self):
+        hp_bar = ""
+        bar_ticks =  (self.hp / self.max_hp)* 100 / 2
+
+        while bar_ticks > 0:
+            hp_bar += "█"
+            bar_ticks -= 1
+
+        while len(hp_bar) < 50:
+            hp_bar += " "
+
+        hp_string = str(self.hp) + "/" + str(self.max_hp)
+        current_hp = ""
+        if len(hp_string) < 11:
+            decreased_value = 11 -len(hp_string)
+
+            while decreased_value > 0:
+                current_hp += " "
+                decreased_value -= 1
+
+            current_hp += hp_string #add string to black space
+        else:
+            current_hp = hp_string
+
+        print("                          __________________________________________________  ")
+        print(bcolors.BOLD + self.name + "       "+
+              current_hp +" |" + bcolors.FAIL + hp_bar + bcolors.ENDC + bcolors.BOLD + "|  ")
+
     def get_stats(self):
         #generate progress bar
         hp_bar = ""
@@ -99,8 +127,36 @@ class Person:
         while len(mp_bar) < 10:
             mp_bar += " "
 
+        hp_string = str(self.hp) + "/" + str(self.max_hp)
+        current_hp = ""
+        #if the HP value is less than 4 digit number
+        if len(hp_string) < 9:
+            decreased_value = 9 -len(hp_string)
+
+            while decreased_value > 0:
+                current_hp += " "
+                decreased_value -= 1
+
+            current_hp += hp_string #add string to black space
+        else:
+            current_hp = hp_string
+
+        mp_string =  str(self.mp) + "/" + str(self.max_mp)
+        current_mp = ""
+
+        if len(mp_string) < 7:
+            decreased_value = 7 - len(mp_string)
+
+            while decreased_value > 0:
+                current_mp += " "
+                decreased_value -= 1
+
+            current_mp += mp_string
+
+        else:
+            current_mp = mp_string
+
         print("                          _________________________            __________  ")
         print(bcolors.BOLD + self.name + "         "+
-             str(self.hp) +"/" + str(self.max_hp) +" |" + bcolors.OKGREEN + hp_bar + bcolors.ENDC + bcolors.BOLD +
-              "|  " +
-              str(self.mp) + "/" + str(self.max_mp) +" |"+ bcolors.OKBLUE + mp_bar + bcolors.ENDC + "|")
+             current_hp +" |" + bcolors.OKGREEN + hp_bar + bcolors.ENDC + bcolors.BOLD + "|  " +
+             current_mp +" |"+ bcolors.OKBLUE + mp_bar + bcolors.ENDC + "|")

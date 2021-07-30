@@ -1,3 +1,4 @@
+import random
 from classes.game import Person, bcolors
 from classes.magic import Spell
 from classes.inventory import Item
@@ -54,6 +55,7 @@ while running:
         player.get_stats()
 
     print("\n")
+    enemy.get_enemy_stats()
 
     for player in players:
         player.choose_action()
@@ -106,8 +108,13 @@ while running:
                 player.heal(item.prop)
                 print(bcolors.OKGREEN + "\n" + item.name + "heals for", str(item.prop), "HP" + bcolors.ENDC)
             elif item.type == "elixer":
-                player.hp = player.max_hp
-                player.mp = player.max_mp
+                if item.name == "MegaElixer":
+                    for i in players:#each player gets max points
+                        i.hp = i.max_hp
+                        i.mp = i.max_mp
+                else:
+                    player.hp = player.max_hp
+                    player.mp = player.max_mp
                 print(bcolors.OKGREEN + "\n" + item.name + "Fully restores HP/MP" + bcolors.ENDC)
             elif item.type == "attack":
                 enemy.take_damage(item.prop)
@@ -115,13 +122,12 @@ while running:
 
 
     enemy_choice = 1
+    #create enemy Target
+    target = random.randrange(0,3)
 
     enemy_dmg = enemy.generate_damage()
-    player1.take_damage(enemy_dmg)
+    players[target].take_damage(enemy_dmg) #player to be attacked
     print("Enemy attacks for", enemy_dmg)
-
-    print("______________________________________________________")
-    print("Enemy HP", bcolors.FAIL +str(enemy.get_hp()) + "/" + str(enemy.get_max_hp()) + bcolors.ENDC + "\n")
 
     #Determining the winner
     if enemy.get_hp() == 0:
