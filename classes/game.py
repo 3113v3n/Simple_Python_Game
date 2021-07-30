@@ -76,6 +76,16 @@ class Person:
         for item in self.items:
             print("        "+ str(i) + ".", item["item"].name, ":", item["item"].description, "(x" +  str(item["quantity"]) +")")
             i += 1
+    def choose_target(self,enemies):
+        i = 1
+        print("\n" + bcolors.FAIL + bcolors.BOLD + "    TARGET" + bcolors.ENDC)
+        for enemy in enemies:
+            if enemy.get_hp() != 0: #if enemy is defeated, they are removed from list
+                print("        " + str(i) +".", enemy.name)
+                i += 1
+        choice = int(input("    Choose Target: "))  - 1
+        return choice
+
 
     def get_enemy_stats(self):
         hp_bar = ""
