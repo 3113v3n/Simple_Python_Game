@@ -57,6 +57,8 @@ class Person:
 
     def choose_action(self):
         i = 1
+
+        
         print("\n" + "    "+ bcolors.BOLD + self.name + bcolors.ENDC)
         print("\n" + bcolors.OKBLUE + bcolors.BOLD + "    ACTIONS" + bcolors.ENDC)
         for item in self.actions:
@@ -65,6 +67,8 @@ class Person:
 
     def choose_magic(self):
         i = 1
+
+        
         print("\n" + bcolors.OKBLUE + bcolors.BOLD + "    MAGIC:" + bcolors.ENDC)
         for spell in self.magic:
             print("        "+ str(i) + ":", spell.name,"{cost:", str(spell.cost) + "}")
@@ -72,12 +76,16 @@ class Person:
 
     def choose_item(self):
         i = 1
+
+        
         print("\n" + bcolors.OKGREEN + bcolors.BOLD + "    ITEMS:" + bcolors.ENDC)
         for item in self.items:
             print("        "+ str(i) + ".", item["item"].name, ":", item["item"].description, "(x" +  str(item["quantity"]) +")")
             i += 1
     def choose_target(self,enemies):
         i = 1
+
+        
         print("\n" + bcolors.FAIL + bcolors.BOLD + "    TARGET" + bcolors.ENDC)
         for enemy in enemies:
             if enemy.get_hp() != 0: #if enemy is defeated, they are removed from list
@@ -170,3 +178,15 @@ class Person:
         print(bcolors.BOLD + self.name + "         "+
              current_hp +" |" + bcolors.OKGREEN + hp_bar + bcolors.ENDC + bcolors.BOLD + "|  " +
              current_mp +" |"+ bcolors.OKBLUE + mp_bar + bcolors.ENDC + "|")
+
+    def choose_enemy_spell(self):
+        magic_choice = random.randrange(0, len(self.magic))
+        spell = self.magic[magic_choice]
+        magic_dmg = spell.generate_damage()
+
+        pct = self.hp / self.max_hp * 100
+
+        if self.mp < spell.cost or spell.type == "white" and pct > 50: #healonly when health percentage is below 50
+            self.choose_enemy_spell()
+        else:
+            return spell, magic_dmg
